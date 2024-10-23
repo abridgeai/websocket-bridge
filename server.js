@@ -8,7 +8,7 @@ require('dotenv').config({ path: 'env.txt' });
 const WebSocket = require('ws');
 const path = require('path');
 const fs = require('fs');
-const https = require('https');
+const http = require('http');
 const express = require('express');
 
 const { audioCodesControlMessage, wsServerConnection, wsServerClose }  = require('./modules/audiocodes');
@@ -18,8 +18,6 @@ const RivaASRClient = require('./riva_client/asr');
 const app = express();
 const port = (process.env.PORT);
 var server;
-var sslkey = './certificates/key.pem';
-var sslcert = './certificates/cert.pem';
 
 
 /**
@@ -31,10 +29,7 @@ function setupServer() {
     app.get('/', function (req, res) {
         res.sendFile('./web/index.html', { root: __dirname });
     });
-    server = https.createServer({
-        key: fs.readFileSync(sslkey),
-        cert: fs.readFileSync(sslcert)
-    }, app);
+    server = http.createServer(app);
 
     const wsServer = new WebSocket.Server({ server });
 
@@ -53,4 +48,3 @@ function setupServer() {
 };
 
 setupServer();
-

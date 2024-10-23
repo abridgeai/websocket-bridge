@@ -12,7 +12,7 @@ import WebSocket from 'ws';
 // beforeAll(async () => {
 //     console.log("before each - start");
 //     // create a WS instance, listening on port 1234 on localhost
-//     const server = new WS("wss://localhost:8009");
+//     const server = new WS("ws://localhost:8009");
 //     console.log("before each - server");
 //     await server.connected;
 //     console.log("before each - connected");
@@ -36,7 +36,7 @@ describe('audioCodes protocol impl test suite - client messages', () => {
         };
 
         let asr = new RivaASRClient();
-        let ws = new WebSocket('wss://localhost:8009');
+        let ws = new WebSocket('ws://localhost:8009');
         audioCodesControlMessage(JSON.stringify(data), asr, ws);
         expect(ws.getMessages()[0]).toBe('{"type":"started"}');
     });
@@ -47,7 +47,7 @@ describe('audioCodes protocol impl test suite - client messages', () => {
             "type": "stop",
         };
         let asr = new RivaASRClient();
-        let ws = new WebSocket('wss://localhost:8009');
+        let ws = new WebSocket('ws://localhost:8009');
         audioCodesControlMessage(JSON.stringify(data), asr, ws);
         expect(ws.getMessages()[0]).toBe('{"type":"end","reason":"stop by client"}');
     });
@@ -63,7 +63,7 @@ describe('audioCodes protocol impl test suite - client messages', () => {
         };
 
         let asr = new RivaASRClient();
-        let ws = new WebSocket('wss://localhost:8009');
+        let ws = new WebSocket('ws://localhost:8009');
         let ws_state = stateOf.UNDEFINED;
 
         ws_state = await serverMessage(JSON.stringify(data), false, ws, ws_state, asr);
@@ -81,7 +81,7 @@ describe('audioCodes protocol impl test suite - client messages', () => {
         };
 
         let asr = new RivaASRClient();
-        let ws = new WebSocket('wss://localhost:8009');
+        let ws = new WebSocket('ws://localhost:8009');
         let ws_state = stateOf.UNDEFINED;
 
         ws_state = await serverMessage(JSON.stringify(data), false, ws, ws_state, asr);
@@ -93,7 +93,7 @@ describe('audioCodes protocol impl test suite - client messages', () => {
      });
 
     test('binary message - before start', async () => {
-        let ws = new WebSocket('wss://localhost:8009') ;
+        let ws = new WebSocket('ws://localhost:8009') ;
         let asr = new RivaASRClient();
         let data = Buffer.alloc(4096);
         let ws_state = stateOf.UNDEFINED;
@@ -111,7 +111,7 @@ describe('audioCodes protocol impl test suite - client messages', () => {
         };
 
         let asr = new RivaASRClient();
-        let ws = new WebSocket('wss://localhost:8009');
+        let ws = new WebSocket('ws://localhost:8009');
         let ws_state = stateOf.UNDEFINED;
 
         ws_state = await serverMessage(JSON.stringify(data), false, ws, ws_state, asr);
@@ -129,7 +129,7 @@ describe('audioCodes protocol impl test suite - client messages', () => {
 
     test('riva transcription callback  - initial', () => {
 
-        let ws = new WebSocket('wss://localhost:8009');
+        let ws = new WebSocket('ws://localhost:8009');
         let result = { 'transcript' : undefined};
         transcription_cb(result, ws);
         expect(ws.getMessages()[0]).toBe('{"type":"started"}');
@@ -137,7 +137,7 @@ describe('audioCodes protocol impl test suite - client messages', () => {
 
     test('riva transcription callback - started ongoing', () => {
 
-        let ws = new WebSocket('wss://localhost:8009');
+        let ws = new WebSocket('ws://localhost:8009');
         let result = { 'transcript' : "working transcript"};
         transcription_cb(result, ws);
         let output =  { "type": "hypothesis", "alternatives": [{ "text": result.transcript }] };;
@@ -146,7 +146,7 @@ describe('audioCodes protocol impl test suite - client messages', () => {
 
     test('riva transcription callback - last', () => {
 
-        let ws = new WebSocket('wss://localhost:8009');
+        let ws = new WebSocket('ws://localhost:8009');
         let result = { 'transcript' : "working transcript", 'is_final' : true};
         transcription_cb(result, ws);
         let output =  { "type": "recognition", "alternatives": [{ "text": result.transcript }] };

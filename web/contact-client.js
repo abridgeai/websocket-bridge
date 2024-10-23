@@ -59,7 +59,7 @@ function startRivaService() {
     latencyTimer = new LatencyTimer();
 
     if (websocket == null || websocket.readyState !== WebSocket.OPEN) {
-        websocket = new WebSocket('wss://' + location.host);
+        websocket = new WebSocket('ws://' + location.host);
 
         let audioInput = audio_context.createMediaStreamSource(localStream);
         let bufferSize = 4096;
@@ -280,5 +280,3 @@ $(document).on("click", "#mute-btn", function (e) {
         muted = false;
     }
 });
-
-

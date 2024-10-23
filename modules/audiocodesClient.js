@@ -15,7 +15,7 @@ const WebSocket = require('ws');
 const fs = require('fs');
 
 let rawWav = fs.readFileSync("./dualstream.pcm");
-let ws_server = 'wss://localhost:8009';
+let ws_server = 'ws://localhost:8009';
 var ws = new WebSocket(ws_server, {rejectUnauthorized: false});
 
 let count = 0;
