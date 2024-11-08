@@ -11,6 +11,7 @@
  */
 
 const RivaASRClient = require('../riva_client/asr');
+const {processTranscript} = require('./postprocess_utils/utils');
 
 
 /*
@@ -41,6 +42,8 @@ function transcription_cb(result, ws) {
         ws.send(JSON.stringify({ "type": "started" }));
         return;
     }
+    // add postprocessing here
+    result.transcript = processTranscript(result.transcript);
     // Log the transcript to console, overwriting non-final results
     process.stdout.write(''.padEnd(process.stdout.columns, ' ') + '\r')
     if (!result.is_final) {

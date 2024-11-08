@@ -24,6 +24,7 @@
     "grpc": "^1.24.11",
     "regenerator-runtime": "^0.13.9",
     "wavefile": "^11.0.0",
+    "words-to-numbers": "^1.5.1",
     "ws": "^8.9.0",
     "wscat": "^5.2.0"
   },
