@@ -81,6 +81,7 @@ const SYNTHETIC_MEDICATION_MISTAKE_DICT = {
     "eimovig": "Aimovig",
     "aimovik": "Aimovig",
     "aimovyg": "Aimovig",
+    "amo vig": "Aimovig",
     "aymovigg": "Aimovig",
     "aimvig": "Aimovig",
     "amovig": "Aimovig",
