@@ -153,7 +153,9 @@ function replaceVoiceCommands(text) {
         " hmm": "",
         " hm": "",
         " umm": "",
-        " uhm": ""
+        " uhm": "",
+        " ok": "",
+        " okay": "",
     };
 
     // Function to escape special regex characters in keys
