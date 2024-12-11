@@ -156,6 +156,15 @@ function replaceVoiceCommands(text) {
         " uhm": "",
         " ok": "",
         " okay": "",
+        " yeah": "",
+        " thank you": "",
+        " thanks": "",
+        " please": "",
+        " oh": "",
+        " a.": ".",
+        " I know": "",
+        ". I": "",
+
     };
 
     // Function to escape special regex characters in keys
@@ -190,6 +199,40 @@ function capitalizeAfterKeyword(text) {
     return text.replace(/\bcapital (\w+)/g, function(match, word) {
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     });
+}
+
+function convertQuoteToDoubleQuotes(input) {
+  return input.replace(/\bquote\b\s+(\w+)/g, '"$1"');
+}
+
+function replaceMultiplePeriods(input) {
+  return input.replace(/(\.\s*){2,}/g, '. ').replace(/\s+/g, ' ').trim();
+}
+
+function removeAllCommas(input) {
+  return input.replace(/,/g, '');
+}
+
+function removeSpacesBeforePeriods(input) {
+  return input.replace(/\s+\./g, '.');
+}
+
+function removePeriodsBeforeNonTitleCase(input) {
+  return input.replace(/\. ([a-z])/g, ' $1');
+}
+
+function removeConsecutiveDuplicateWords(input) {
+  return input.replace(/\b(\w+)\b \b\1\b/g, '$1');
+}
+
+function removeIAndIKnow(input) {
+  return input.replace(/\bI\b( know)?/g, '').replace(/\s+/g, ' ').trim();
+}
+
+function capitalizeAfterPeriod(input) {
+  return input
+      .replace(/^\w/, (match) => match.toUpperCase()) // Capitalize the first word
+      .replace(/\. (\w)/g, (match, firstLetter) => `. ${firstLetter.toUpperCase()}`); // Capitalize after periods
 }
 
 function replaceSpellingErrors(text) {
@@ -237,20 +280,45 @@ function escapeRegExp(string) {
 }
 
 function processTranscript(transcript) {
+
+    // Remove I and I know
+    transcript = removeIAndIKnow(transcript);
+
+    // Remove all commas
+    transcript = removeAllCommas(transcript);
+
     // Convert number words to digits
     transcript = convertTextNumbers(transcript);
+
+    // Capitalize words after the keyword "capital"
+    transcript = capitalizeAfterKeyword(transcript);
+
+    // Remove periods before non-title case words
+    transcript = removePeriodsBeforeNonTitleCase(transcript);
 
     // Replace voice commands with their corresponding symbols
     transcript = replaceVoiceCommands(transcript);
 
-    // Capitalize words after the keyword "capital"
-    transcript = capitalizeAfterKeyword(transcript);
+    // Convert 'quote' followed by a word to double quotes
+    transcript = convertQuoteToDoubleQuotes(transcript);
+
+    // Replace multiple periods with a single period
+    transcript = replaceMultiplePeriods(transcript);
 
     // Replace misspelled words with correct spellings
     transcript = replaceSpellingErrors(transcript);
 
     // Replace generic names with lowercase equivalents
     transcript = replaceGenericNames(transcript);
+
+    // Remove spaces before periods
+    transcript = removeSpacesBeforePeriods(transcript);
+
+    // Remove consecutive duplicate words
+    transcript = removeConsecutiveDuplicateWords(transcript);
+
+    // Capitalize words after periods
+    transcript = capitalizeAfterPeriod(transcript);
 
     return transcript;
 }

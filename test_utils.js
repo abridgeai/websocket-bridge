@@ -1,5 +1,5 @@
 const {processTranscript} = require('./modules/postprocess_utils/utils');
 
-const inputText = "He is a twenty three year old uhm referred to cardiology on 30th October twenty twenty four due to capital bradycardia newline He was in the emergency room on ten slash twenty five slash twenty four with vague chest discomfort noted to have bradycardia. He was born in nineteen ninety nine and visited in twenty twenty. He is being prescribed with amavig and some Acitretin."
+const inputText = "Yeah. patient . patient having significant trouble with the gastro otomies leakage. . a child has P shunt and. previous surgical scars. a. The gastro toom tube is near her ribs approximately 1 cm .. Yeah. a leakage has been with longer and shorter button devices as well as the 8 inch Nc replacement tube. none of them have been able to solve the constant leakage problem. a. Anytime she moves or sits it leak. well, refer to the pediatric surgeons for assistance with closure of the old gastro site surgically and placement of the tube in a new location. discussed with mom in detail that this may be a difficult procedure. to find a new location."
 const correctedText = processTranscript(inputText);
 console.log(correctedText);
