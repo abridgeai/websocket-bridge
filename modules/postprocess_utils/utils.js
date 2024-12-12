@@ -158,6 +158,7 @@ function replaceVoiceCommands(text) {
         " okay": "",
         " yeah": "",
         " thank you": "",
+        " yes": "",
         " thanks": "",
         " please": "",
         " oh": "",
@@ -233,6 +234,10 @@ function capitalizeAfterPeriod(input) {
   return input
       .replace(/^\w/, (match) => match.toUpperCase()) // Capitalize the first word
       .replace(/\. (\w)/g, (match, firstLetter) => `. ${firstLetter.toUpperCase()}`); // Capitalize after periods
+}
+
+function removePhantomArticles(input) {
+  return input.replace(/\b(The|A|An)\.(\s+|$)/gi, '').replace(/\s+/g, ' ').trim();
 }
 
 function replaceSpellingErrors(text) {
@@ -319,6 +324,9 @@ function processTranscript(transcript) {
 
     // Capitalize words after periods
     transcript = capitalizeAfterPeriod(transcript);
+
+    // Remove phantom articles
+    transcript = removePhantomArticles(transcript);
 
     return transcript;
 }
