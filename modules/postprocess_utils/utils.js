@@ -137,6 +137,8 @@ function replaceVoiceCommands(text) {
         " period": ".",
         " period.": ".",
         " semicolon ": ";",
+        " dash ": "-",
+        " dash.": "-",
         " newline ": "\n ",
         " new line ": "\n ",
         "newline.": ".",
@@ -204,6 +206,10 @@ function capitalizeAfterKeyword(text) {
 
 function convertQuoteToDoubleQuotes(input) {
   return input.replace(/\bquote\b\s+(\w+)/g, '"$1"');
+}
+
+function convertParenthesesToEncloseNextWord(input) {
+  return input.replace(/\bparentheses\b\s+(\w+)/gi, '($1)');
 }
 
 function replaceMultiplePeriods(input) {
@@ -286,9 +292,6 @@ function escapeRegExp(string) {
 
 function processTranscript(transcript) {
 
-    // Remove I and I know
-    transcript = removeIAndIKnow(transcript);
-
     // Remove all commas
     transcript = removeAllCommas(transcript);
 
@@ -306,6 +309,9 @@ function processTranscript(transcript) {
 
     // Convert 'quote' followed by a word to double quotes
     transcript = convertQuoteToDoubleQuotes(transcript);
+
+    // Convert 'parentheses' followed by a word to parentheses enclosing the word
+    transcript = convertParenthesesToEncloseNextWord(transcript);
 
     // Replace multiple periods with a single period
     transcript = replaceMultiplePeriods(transcript);
@@ -327,6 +333,9 @@ function processTranscript(transcript) {
 
     // Remove phantom articles
     transcript = removePhantomArticles(transcript);
+
+    // Remove I and I know
+    transcript = removeIAndIKnow(transcript);
 
     return transcript;
 }
