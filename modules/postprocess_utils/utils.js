@@ -150,6 +150,8 @@ function replaceVoiceCommands(text) {
         " comma": ", ",
         " comma.": ", ",
         "comma,": ", ",
+        " colon ": ": ",
+        " colon.": ": ",
         " uh": "",
         " um": "",
         " hmm": "",
