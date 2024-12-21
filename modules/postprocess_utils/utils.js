@@ -134,24 +134,16 @@ function convertTextNumbers(text) {
 function replaceVoiceCommands(text) {
     // Mapping of voice commands to their replacements (including leading/trailing spaces)
     const VOICE_COMMANDS = {
-        " period": ".",
-        " period.": ".",
-        " semicolon ": ";",
-        " dash ": "-",
-        " dash.": "-",
-        " newline ": "\n ",
-        " new line ": "\n ",
-        "newline.": ".",
-        " new line.": ".\n",
-        " slash ": "/",
-        "slash.": "/",
-        " paragraph ": "\n\n ",
-        " new paragraph ": "\n\n ",
-        " comma": ", ",
-        " comma.": ", ",
-        "comma,": ", ",
-        " colon ": ": ",
-        " colon.": ": ",
+        "period": " . ",
+        "semicolon ": " ; ",
+        "dash": " - ",
+        "newline": " \n ",
+        "new line": " \n ",
+        "slash": " / ",
+        "paragraph": " \n\n ",
+        "new paragraph ": " \n\n ",
+        "comma": " , ",
+        "colon": " : ",
         " uh": "",
         " um": "",
         " hmm": "",
@@ -159,15 +151,15 @@ function replaceVoiceCommands(text) {
         " umm": "",
         " uhm": "",
         " ok": "",
-        " okay": "",
-        " yeah": "",
-        " thank you": "",
-        " yes": "",
-        " thanks": "",
-        " please": "",
+        "okay": " ",
+        "yeah": " ",
+        "thank you": " ",
+        "yes": " ",
+        "thanks": " ",
+        "please": " ",
         " oh": "",
         " a.": ".",
-        " I know": "",
+        "I know": " ",
         ". I": "",
 
     };
@@ -210,6 +202,10 @@ function convertQuoteToDoubleQuotes(input) {
   return input.replace(/\bquote\b\s+(\w+)/g, '"$1"');
 }
 
+function convertMultipleSpacesToSingle(input) {
+  return input.replace(/\s+/g, ' ').trim();
+}
+
 function convertParenthesesToEncloseNextWord(input) {
   return input.replace(/\bparentheses\b\s+(\w+)/gi, '($1)');
 }
@@ -240,7 +236,6 @@ function removeIAndIKnow(input) {
 
 function capitalizeAfterPeriod(input) {
   return input
-      .replace(/^\w/, (match) => match.toUpperCase()) // Capitalize the first word
       .replace(/\. (\w)/g, (match, firstLetter) => `. ${firstLetter.toUpperCase()}`); // Capitalize after periods
 }
 
@@ -338,6 +333,9 @@ function processTranscript(transcript) {
 
     // Remove I and I know
     transcript = removeIAndIKnow(transcript);
+
+    // Convert multiple spaces to single spaces
+    transcript = convertMultipleSpacesToSingle(transcript);
 
     return transcript;
 }
