@@ -198,6 +198,10 @@ function capitalizeAfterKeyword(text) {
     });
 }
 
+function removeExtraSpacesBeforeCommas(input) {
+  return input.replace(/\s+,/g, ',');
+}
+
 function convertQuoteToDoubleQuotes(input) {
   return input.replace(/\bquote\b\s+(\w+)/g, '"$1"');
 }
@@ -336,6 +340,9 @@ function processTranscript(transcript) {
 
     // Convert multiple spaces to single spaces
     transcript = convertMultipleSpacesToSingle(transcript);
+
+    // Remove extra spaces before commas
+    transcript = removeExtraSpacesBeforeCommas(transcript);
 
     return transcript;
 }
